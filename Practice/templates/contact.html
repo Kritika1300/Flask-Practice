@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>THIS IS THE CONTACT PAGE FOR {{user}}</h1>
+<h1>THIS IS THE CONTACT PAGE FOR {{user | lower }}</h1><br>
+<a href = "{{url_for('static',filename = "pic.jpg")}}" >PUPPY IMAGE</a>
 {% endblock %}

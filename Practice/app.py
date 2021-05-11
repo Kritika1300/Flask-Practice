@@ -10,4 +10,8 @@ def home():
 def about():
     return "<h1>This is the about us page!</h1>"
 
-app.run(port = 5000,debug = True)
+@app.route('/some_page/<name>')
+def user(name):
+    return 'Hey {} !'.format(name)
+
+app.run(port=5000,debug=True)

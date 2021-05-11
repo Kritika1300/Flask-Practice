@@ -8,9 +8,8 @@ def home():
 
 @app.route('/index')
 def index():
-    my_string = 'Kritika'
-    my_list = list(my_string)
-    return render_template("index.html",my_string = my_string,my_list = my_list)
+    my_list = [1,2,3,4,5]
+    return render_template("index.html",my_list = my_list)
 
 # @app.route('/about')
 # def about():

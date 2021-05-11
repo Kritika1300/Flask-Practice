@@ -7,10 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <center>
-        Hey {{my_string}} !<br>
-        {{my_list}}<br>
-        <img src = "./static/pic.jpg" alt = "image" height="490px" width="470px">
-    </center>
+    <ul>
+        {% for item in my_list %}
+        <li>{{item}}</li>
+        {%endfor%}
+    </ul>
 </body>
 </html>

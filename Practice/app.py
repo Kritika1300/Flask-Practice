@@ -8,19 +8,21 @@ def home():
 
 @app.route('/index')
 def index():
-    return render_template("index.html")
+    my_string = 'Kritika'
+    my_list = list(my_string)
+    return render_template("index.html",my_string = my_string,my_list = my_list)
 
-@app.route('/about')
-def about():
-    return "<h1>This is the about us page!</h1>"
+# @app.route('/about')
+# def about():
+#     return "<h1>This is the about us page!</h1>"
 
-@app.route('/some_page/<name>')
-def user(name):
-    l = len(name)
-    if(name[l-1] == 'y'):
-        name = name[0:l-1] + 'utiful'
-    else:
-        name = name + 'y'
-    return 'Hey {} !'.format(name.upper())
+# @app.route('/some_page/<name>')
+# def user(name):
+#     l = len(name)
+#     if(name[l-1] == 'y'):
+#         name = name[0:l-1] + 'utiful'
+#     else:
+#         name = name + 'y'
+#     return 'Hey {} !'.format(name.upper())
 
 app.run(port=5000,debug=True)

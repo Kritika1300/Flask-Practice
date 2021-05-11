@@ -1,0 +1,679 @@
+1
+00:00:05,440 --> 00:00:09,020
+Welcome back to this lecture on Temple inheritance.
+
+2
+00:00:09,250 --> 00:00:14,350
+We already know that we can create view functions that are directly linked to an HTL template but that
+
+3
+00:00:14,350 --> 00:00:19,300
+still means that we need to make an html template for every page that we link to using that render underscore
+
+4
+00:00:19,300 --> 00:00:21,070
+template function.
+
+5
+00:00:21,070 --> 00:00:26,650
+Usually pages across web application already share a lot of features things like navigation bars or
+
+6
+00:00:26,650 --> 00:00:29,540
+footers aren't going to change drastically from page to page.
+
+7
+00:00:29,620 --> 00:00:31,660
+In fact it's almost always the same code.
+
+8
+00:00:31,840 --> 00:00:38,020
+For example when you log into Facebook that navigation bar at the very top is going to be the same regardless
+
+9
+00:00:38,020 --> 00:00:39,330
+of the actual page you're on.
+
+10
+00:00:39,340 --> 00:00:40,460
+Within Facebook.
+
+11
+00:00:40,690 --> 00:00:46,960
+So it would be nice instead of having to retype that same navigation bar code to every single HTL metafile
+
+12
+00:00:47,020 --> 00:00:49,850
+or HTL template instead of a web application.
+
+13
+00:00:50,050 --> 00:00:57,490
+If we could have a base HTL file and then use that to extend to every other template file.
+
+14
+00:00:57,570 --> 00:01:00,060
+So this solution is called template inheritance.
+
+15
+00:01:00,060 --> 00:01:05,460
+And as I just mentioned what we do is we set up a base H.T. template file with the reuseable aspects
+
+16
+00:01:05,460 --> 00:01:06,280
+of our site.
+
+17
+00:01:06,570 --> 00:01:14,730
+Then we use extend based on HCM syntax in the extended HTL file and then use the block syntax statements
+
+18
+00:01:14,880 --> 00:01:17,810
+to extend these reusable aspects to other pages.
+
+19
+00:01:17,820 --> 00:01:20,530
+Let's see the quick example of what this would actually look like.
+
+20
+00:01:22,400 --> 00:01:23,610
+Inciter templates folder.
+
+21
+00:01:23,630 --> 00:01:29,300
+What we end up having is a base the same file and within this base h html file is where you put your
+
+22
+00:01:29,300 --> 00:01:35,750
+reuseable aspects of code things like the footer your linked to a CSSA file links to bootstrap or your
+
+23
+00:01:35,750 --> 00:01:37,100
+navigation bars.
+
+24
+00:01:37,130 --> 00:01:42,460
+These are components you expect to be on pretty much every page of your web application.
+
+25
+00:01:42,560 --> 00:01:48,710
+Then once you have those reusable components you set up a block and you set a block and then the content
+
+26
+00:01:48,800 --> 00:01:50,000
+name of your block.
+
+27
+00:01:50,120 --> 00:01:54,860
+By convention it's usually called content but technically you can call it whatever you want and then
+
+28
+00:01:54,860 --> 00:02:01,340
+you have an end block statement after that in another each time I'll file essentially another template
+
+29
+00:02:01,370 --> 00:02:02,100
+file.
+
+30
+00:02:02,150 --> 00:02:08,210
+What you do is you say extends from your base h tim L and then you call the same block and then you
+
+31
+00:02:08,300 --> 00:02:10,620
+insert your code that specific for home.
+
+32
+00:02:10,620 --> 00:02:13,660
+The T.M. into that block.
+
+33
+00:02:14,090 --> 00:02:21,350
+And what happens is once you actually run this in your web application your application will grab the
+
+34
+00:02:21,410 --> 00:02:27,770
+code from base about H.T. mail and then insert where you set your block the home the H.T. mail or whatever
+
+35
+00:02:27,770 --> 00:02:29,990
+specific template each time you have there.
+
+36
+00:02:30,050 --> 00:02:35,350
+And then you get back a final result where you don't have to constantly be retyping that base HTML code.
+
+37
+00:02:35,360 --> 00:02:38,380
+Things like navigation bar into every single template page.
+
+38
+00:02:38,420 --> 00:02:43,820
+So we're going to be walking through an example of this later on in the lecture.
+
+39
+00:02:43,860 --> 00:02:47,910
+Finally in this lecture We're also going to briefly introduce the concept of filters.
+
+40
+00:02:47,910 --> 00:02:52,980
+Filters are a really great way to quickly change or a variable passed into a template instead of having
+
+41
+00:02:52,980 --> 00:02:55,960
+to edit it back at your flask Python script.
+
+42
+00:02:57,410 --> 00:03:02,150
+So what this actually looks like is when you pass in a variable you can also use the pipe operator and
+
+43
+00:03:02,150 --> 00:03:03,950
+then pass on the name of the filter.
+
+44
+00:03:04,080 --> 00:03:09,740
+And a lot of times these filters share the same names as Python methods on normal objects such as a
+
+45
+00:03:09,740 --> 00:03:10,990
+string.
+
+46
+00:03:11,000 --> 00:03:15,830
+So for example let's imagine that we passed in a variable called Name and by the time we got to the
+
+47
+00:03:15,830 --> 00:03:20,820
+web application it was an all lowercase and we wanted to somehow called capitalized on it.
+
+48
+00:03:20,840 --> 00:03:24,440
+Recall that capitalized is actually a method you can use on the Python string.
+
+49
+00:03:24,650 --> 00:03:29,600
+But instead of having to go back to your Python code figure out where the actual strings being manipulated
+
+50
+00:03:29,660 --> 00:03:34,240
+and then add the capitalized method call what you could do is use the filter instead.
+
+51
+00:03:34,370 --> 00:03:40,010
+And then inside your actual HTML temple of file you would just say the name of the variable pipe operator
+
+52
+00:03:40,070 --> 00:03:41,180
+in the name of the filter.
+
+53
+00:03:41,210 --> 00:03:44,950
+For example capitalized and then when it's right there on the page you would see something like has
+
+54
+00:03:44,960 --> 00:03:47,930
+a capital G.
+
+55
+00:03:47,950 --> 00:03:48,200
+All right.
+
+56
+00:03:48,220 --> 00:03:51,550
+Let's see these concepts in action and head over to a text editor.
+
+57
+00:03:52,120 --> 00:03:54,260
+Or a text editor.
+
+58
+00:03:54,400 --> 00:03:58,390
+Notice how now underneath my templates folder I have three female files.
+
+59
+00:03:58,390 --> 00:03:59,530
+One is a base.
+
+60
+00:03:59,530 --> 00:04:04,850
+Each time I'll file and then we're going to extend that to home HTL and then puppie thought each T.M.
+
+61
+00:04:05,290 --> 00:04:11,570
+Let's first connect these with our flask application will just simply be calling the route.
+
+62
+00:04:11,940 --> 00:04:21,660
+We'll start off for home page and we'll say index and here we're going to return render a template and
+
+63
+00:04:21,660 --> 00:04:30,620
+we'll just pass an home that H Timo then for our second view we'll see the route.
+
+64
+00:04:30,860 --> 00:04:32,860
+And this one is going to be puppy.
+
+65
+00:04:33,020 --> 00:04:41,110
+And then the user can provide a name for the puppy so we'll call this new name and then we're actually
+
+66
+00:04:41,120 --> 00:04:48,020
+going to pass in that name and then we're going to return render a template we'll say we thought HVM
+
+67
+00:04:48,030 --> 00:04:54,470
+El her name is equal to name.
+
+68
+00:04:54,560 --> 00:04:59,360
+Notice that I'm not actually creating a specific view for base h tim L and that's because we never called
+
+69
+00:04:59,360 --> 00:05:01,360
+base HTL directly from flask.
+
+70
+00:05:01,370 --> 00:05:04,470
+Instead we're going to extend it using templating.
+
+71
+00:05:04,490 --> 00:05:08,630
+So we're kind of come to base himself first and this is where you want to set up things that you know
+
+72
+00:05:08,630 --> 00:05:13,430
+you're going to use for essentially most of your pages and you have multiple base each team else that's
+
+73
+00:05:13,430 --> 00:05:14,690
+also no problem.
+
+74
+00:05:14,690 --> 00:05:16,930
+Typically with last use can have one.
+
+75
+00:05:17,180 --> 00:05:21,980
+And let's start off by just typing out a T.M. notice I have already say that as Nates HTML file which
+
+76
+00:05:21,980 --> 00:05:25,280
+means I have autocomplete with a title.
+
+77
+00:05:25,280 --> 00:05:28,570
+This is going to now be the same title across all pages.
+
+78
+00:05:28,800 --> 00:05:30,900
+We'll call it puppy rock.
+
+79
+00:05:30,960 --> 00:05:36,450
+And let's also add in some links when adding the links for bootstrap for showing to copy and paste these
+
+80
+00:05:36,450 --> 00:05:39,940
+in here you can do the same from the notes or from the bootstrap Web site.
+
+81
+00:05:40,030 --> 00:05:42,770
+If you also want to use the older version of bootstrap that's fine as well.
+
+82
+00:05:42,870 --> 00:05:47,540
+As long as you copy the right script going to collapse the left hand side here.
+
+83
+00:05:47,700 --> 00:05:51,610
+And what we're going to do now in the body is set up 8 navigation bar.
+
+84
+00:05:51,770 --> 00:05:58,670
+So I'll say now of and then I'm going to set up a class and I go to copy this class from the notes because
+
+85
+00:05:58,670 --> 00:05:59,770
+it's kind of long.
+
+86
+00:05:59,870 --> 00:06:05,090
+So essentially just a bunch of code that I copied and pasted from the bootstrap documentation as we
+
+87
+00:06:05,090 --> 00:06:07,220
+discussed during the bootstrap lectures.
+
+88
+00:06:07,370 --> 00:06:10,150
+And let's go ahead and add in an anchor tag.
+
+89
+00:06:10,250 --> 00:06:12,070
+We don't actually really need to link it to anything.
+
+90
+00:06:12,140 --> 00:06:17,280
+Later on we'll show you how you can link tags within your navigation bar to other pages on the Web site.
+
+91
+00:06:17,480 --> 00:06:24,030
+But right now keep things simple we'll say class and then say nav bar dash brand.
+
+92
+00:06:24,080 --> 00:06:30,300
+So it's kind of the brand page and then we'll just have it say puppies rock.
+
+93
+00:06:30,620 --> 00:06:32,320
+All right so I have my navigation bar.
+
+94
+00:06:32,420 --> 00:06:38,060
+And typically what we would have to do is copy and paste all this code into home that each time.
+
+95
+00:06:38,090 --> 00:06:39,540
+And puppy that age HTML.
+
+96
+00:06:39,680 --> 00:06:42,500
+But that's not really good practice for dry principles.
+
+97
+00:06:42,500 --> 00:06:43,710
+That is don't repeat yourself.
+
+98
+00:06:43,720 --> 00:06:44,730
+D are white.
+
+99
+00:06:44,990 --> 00:06:50,900
+So instead we're going to do is once you have selected and have an idea of everything you want to use
+
+100
+00:06:51,260 --> 00:07:00,380
+for your base template you're going to say block and then the name of your block and by convention it's
+
+101
+00:07:00,380 --> 00:07:04,960
+usually content you're going to have a matching and block
+
+102
+00:07:07,940 --> 00:07:10,300
+and notice because this block is actually named content.
+
+103
+00:07:10,320 --> 00:07:15,270
+It does leave out the possibility to have multiple blocks within your base team file will keep things
+
+104
+00:07:15,270 --> 00:07:19,350
+simple for now and we'll just use a single block which is extremely common.
+
+105
+00:07:19,470 --> 00:07:24,840
+So now what we need to do is since we have our base template page all the stuff that we want to then
+
+106
+00:07:24,840 --> 00:07:27,220
+extend to the other HCM l files.
+
+107
+00:07:27,220 --> 00:07:32,020
+I'm going to say this and then underneath home but each time I'll I'm going to say the following.
+
+108
+00:07:32,980 --> 00:07:38,790
+At the top with my syntax I'll sameas zoom in just a little bit here.
+
+109
+00:07:40,030 --> 00:07:41,160
+Extends.
+
+110
+00:07:41,470 --> 00:07:45,610
+And if you actually have a particular library just start typing extends it will autocomplete this for
+
+111
+00:07:45,610 --> 00:07:45,980
+you.
+
+112
+00:07:46,120 --> 00:07:47,760
+But that's actually not what I wanted.
+
+113
+00:07:47,770 --> 00:07:53,140
+I will just say extends manually and then as a string you pass and the actual name of the file inside
+
+114
+00:07:53,140 --> 00:08:03,730
+templates are extending from sual say extends based on each T.M. and then you call the block and then
+
+115
+00:08:03,730 --> 00:08:04,780
+the name of the Block.
+
+116
+00:08:04,810 --> 00:08:14,340
+In our case we called the name of the block content and then we say and the block as one word.
+
+117
+00:08:14,350 --> 00:08:14,950
+All right.
+
+118
+00:08:14,950 --> 00:08:21,430
+So what that means is in between your first block and after your end block is all this code.
+
+119
+00:08:21,460 --> 00:08:25,200
+All this code is going to be inserted as we just showed through that visual example.
+
+120
+00:08:25,240 --> 00:08:26,720
+Inside the slides.
+
+121
+00:08:26,800 --> 00:08:29,500
+So that means we can then insert stuff inside or block.
+
+122
+00:08:29,500 --> 00:08:36,950
+So this is the home page where we're going to say something like this is the home page and then we'll
+
+123
+00:08:36,950 --> 00:08:43,560
+say go to slash puppy slash name
+
+124
+00:08:46,560 --> 00:08:50,050
+save that and let's do this one more time for a puppy at that age T-Mo.
+
+125
+00:08:50,100 --> 00:08:52,650
+So on the puppy page we're going to do the same thing.
+
+126
+00:08:52,650 --> 00:09:02,190
+We're going to say extends we're extending from that base team I'll file and then we set up our block
+
+127
+00:09:02,730 --> 00:09:06,650
+and depending on what plugins you have you can just type out block and it will autofill block and block
+
+128
+00:09:07,020 --> 00:09:09,380
+and then you just need to provide the name content.
+
+129
+00:09:09,780 --> 00:09:19,290
+And here will have a header say this is the page for and then we're going to insert the name number
+
+130
+00:09:19,290 --> 00:09:24,630
+and passing in this name variable all the way back in my flask application.
+
+131
+00:09:24,630 --> 00:09:27,990
+So that's the name that the user provided at the end of the.
+
+132
+00:09:28,440 --> 00:09:34,220
+Main thing to get here though is our use case of content and end blocks here as well as the keywords
+
+133
+00:09:34,230 --> 00:09:35,940
+for extending.
+
+134
+00:09:35,940 --> 00:09:36,330
+All right.
+
+135
+00:09:36,360 --> 00:09:41,170
+And you can always use are provided notes where we have a very similar example to this.
+
+136
+00:09:41,310 --> 00:09:43,490
+We're going to do now is actually run our script.
+
+137
+00:09:43,560 --> 00:09:47,530
+Make sure it works I'll call Python basic about pi enter.
+
+138
+00:09:47,760 --> 00:09:48,690
+And it looks like it's running.
+
+139
+00:09:48,690 --> 00:09:54,390
+Let's make sure we have no errors they're going to come over here and I'm quite zoomed in.
+
+140
+00:09:54,420 --> 00:09:59,490
+But you'll notice here I have this navigation bar at my home page so this navigation bar is again not
+
+141
+00:09:59,490 --> 00:10:01,810
+actually defined inside of home but each time.
+
+142
+00:10:02,070 --> 00:10:04,230
+There's nothing here that says set up a navigation bar.
+
+143
+00:10:04,230 --> 00:10:09,420
+Instead all we're saying is extend from baseline h tim L and that baseline smell that has the code for
+
+144
+00:10:09,420 --> 00:10:10,730
+this actual navigation.
+
+145
+00:10:10,740 --> 00:10:11,470
+It's also a link.
+
+146
+00:10:11,490 --> 00:10:15,780
+So if I click on it technically nothing happens but later I'll show you how you can use that link to
+
+147
+00:10:15,810 --> 00:10:17,250
+go back to the home page.
+
+148
+00:10:17,250 --> 00:10:20,620
+Since that's the home page I want to get a forward slash puppy name.
+
+149
+00:10:20,930 --> 00:10:22,710
+So it is a forward slash puppy.
+
+150
+00:10:22,710 --> 00:10:28,900
+Let's go to Rufus and then it says this is the puppy page for Rufus and to finish off this lecture.
+
+151
+00:10:28,900 --> 00:10:33,910
+I just want to show you quickly how you can use filters with your template variables.
+
+152
+00:10:33,910 --> 00:10:38,530
+So the way we do that is we're actually inserting this variable.
+
+153
+00:10:38,710 --> 00:10:42,580
+I say a pipe operator and then I can pass any filter.
+
+154
+00:10:42,620 --> 00:10:46,750
+There's lots of different filters you can use and you can check out the documentation link in this lecture
+
+155
+00:10:47,020 --> 00:10:48,270
+to see the various filters.
+
+156
+00:10:48,280 --> 00:10:52,350
+A lot of them actually match up with method calls from Python objects.
+
+157
+00:10:52,390 --> 00:10:54,370
+So they'll feel pretty familiar.
+
+158
+00:10:54,370 --> 00:10:57,520
+We're not going to be using them a whole lot in this course but just know that they're there for your
+
+159
+00:10:57,520 --> 00:10:58,370
+convenience.
+
+160
+00:10:58,510 --> 00:11:00,710
+For example capitalize was one that we discussed.
+
+161
+00:11:00,760 --> 00:11:05,800
+So let's go ahead and use it or to come back with our browser after we've saved that.
+
+162
+00:11:05,980 --> 00:11:10,850
+And I'm going to say lowercase is the name of my puppy.
+
+163
+00:11:11,230 --> 00:11:13,120
+And now when it says this is the puppy page.
+
+164
+00:11:13,120 --> 00:11:18,640
+Notice how the L has been capitalized because I have that capitalized filter back over on this line
+
+165
+00:11:18,640 --> 00:11:19,760
+right here.
+
+166
+00:11:19,800 --> 00:11:20,240
+All right.
+
+167
+00:11:20,470 --> 00:11:22,510
+That's really the basics of temporal inheritance.
+
+168
+00:11:22,540 --> 00:11:23,710
+I hope you found that useful.
+
+169
+00:11:23,830 --> 00:11:27,730
+Now you don't need to copy and paste so much code between all your template files.
+
+170
+00:11:27,790 --> 00:11:29,170
+We'll see you at the next lecture.

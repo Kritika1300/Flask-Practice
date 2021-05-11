@@ -12,6 +12,11 @@ def about():
 
 @app.route('/some_page/<name>')
 def user(name):
-    return 'Hey {} !'.format(name)
+    l = len(name)
+    if(name[l-1] == 'y'):
+        name = name[0:l-1] + 'utiful'
+    else:
+        name = name + 'y'
+    return 'Hey {} !'.format(name.upper())
 
 app.run(port=5000,debug=True)

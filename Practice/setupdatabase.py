@@ -8,7 +8,6 @@ frank = Puppy('Franky',4)
 
 db.session.add_all([sam,frank]) #or db.session.add(sam)  db.session.add(frank)
 
-
 print(sam.id)
 print(frank.id)
 

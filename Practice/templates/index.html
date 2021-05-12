@@ -1,9 +1,14 @@
-{% extends "base.html" %}
+<p>
+{% if breed %}
+The breed you entered is : {{breed}} <br>
+Update it in the form below : <br>
+{% else %}
+Enter your breed :
+{% endif %}
+</p>
 
-{% block content %}
-<div class="jumbotron">
-    <p>Welcome to Puppy Rock!</p>
-    <p>Wanna sign up for our puppy band?</p>
-    <a href = "{{url_for('sign_form')}}">Sign up for the audtions here !</a>
-</div>
-{% endblock %}
+<form method = "POST">
+{{ form.hidden_tag() }}
+{{ form.breed.label }}{{ form.breed() }}
+{{ form.submit() }}
+</form>

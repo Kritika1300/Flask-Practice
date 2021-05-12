@@ -1,23 +1,22 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template
+from flask_wtf import FlaskForm
+from wtforms import StringField,SubmitField
 
 app = Flask(__name__)
 
-@app.route('/')
+app.config['SECRET_KEY'] = 'mysecretkey'
+
+class InfoForm(FlaskForm):
+    breed = StringField("What breed are you ?")
+    submit = SubmitField('Submit')
+
+@app.route('/',methods = ['GET','POST'])
 def index():
-    return render_template("index.html")
-
-@app.route('/sign_form')
-def sign_form():
-    return render_template("signup.html")
-
-@app.route('/thank_you')
-def thank_you():
-    first = request.args.get('first')
-    last = request.args.get('last')
-    return render_template("thankyou.html",first = first, last= last)
-
-@app.errorhandler(404)
-def error(e):
-    return render_template("404.html"),404
-
-app.run(port=5000,debug=True)
+    breed = False
+    form = InfoForm()
+    if form.validate_on_submit():
+        breed = form.breed.data
+        form.breed.data = " "
+    return render_template('index.html',form = form, breed = breed)
+    
+app.run(port = 5000,debug = True)

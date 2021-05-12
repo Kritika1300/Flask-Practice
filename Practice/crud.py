@@ -17,6 +17,11 @@ print(puppy_one.name)
 #filter (eg. to get puppies with name sam)
 puppy_sam = Puppy.query.filter_by(name = "sam")
 print(puppy_sam.all()) #prints result of filter method as per __repr__ method
-
+ 
+#update
+first_puppy = Puppy.query.get(1)
+first_puppy.age = 6
+db.session.add(first_puppy)
+db.session.commit(first_puppy)
 
 

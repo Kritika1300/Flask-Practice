@@ -1,25 +1,36 @@
-from flask import Flask,render_template,redirect,url_for,flash,session
-from flask_wtf import FlaskForm
-from wtforms import (StringField,SubmitField)
+import os
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'secretkey'
+#creating sqlite db purely through python
 
-class InfoForm(FlaskForm):
-    breed = StringField('Whats your breed ?')
-    submit = SubmitField('Submit on click')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'data.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@app.route('/',methods = ['GET','POST'])
-def index():
+db = SQLAlchemy(app)
 
-    form = InfoForm()
-    if form.validate_on_submit():
-        session['breed'] = form.breed.data
-        flash(f"Your breed is : {session['breed']}")
-        return redirect(url_for('index'))
+class Puppy(db.Model):
+    #manually setting the tablename
+
+    __tablename__ = 'puppies'
+
+    #adding columns to the table
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    age = db.Column(db.Integer)
+
+    def __init__(self,name,age):
+        self.name = name
+        self.age = age
     
-    return render_template('index.html',form = form)
+    def __repr__(self):
+        return f'Puppy {self.name} is {self.age} years old !'
+        
 
-if __name__ == "__main__":
-    app.run(port = 5000,debug = True)
+app.run(port = 5000,debug= True)
+

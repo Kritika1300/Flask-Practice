@@ -1,14 +1,18 @@
-<p>
-{% if breed %}
-The breed you entered is : {{breed}} <br>
-Update it in the form below : <br>
-{% else %}
-Enter your breed :
-{% endif %}
-</p>
+<h1>Welcome to the Puppy Survey</h1>
 
 <form method = "POST">
 {{ form.hidden_tag() }}
-{{ form.breed.label }}{{ form.breed() }}
+{{ form.breed.label }} {{ form.breed }}
+<br>
+{{ form.neutered.label }}{{ form.neutered }}
+<br>
+{{ form.mood.label }}{{ form.mood }}
+<br>
+{{ form.food_choice.label }}{{ form.food_choice }}
+<br>
+Any other feedback?
+<br><br>  
+{{ form.feedback.label }}  {{ form.feedback }}
+<br>
 {{ form.submit() }}
 </form>

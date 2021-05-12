@@ -20,6 +20,7 @@
     <center>
         <form method = "POST">
             {{ form.hidden_tag() }}
+            {{ form.breed.label }} {{ form.breed() }}
             {{ form.submit() }}
         </form>
     </center>

@@ -5,7 +5,6 @@ from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
 app = Flask(__name__)
 
 #creating sqlite db purely through python
@@ -18,22 +17,54 @@ db = SQLAlchemy(app)
 Migrate(app,db)
 
 class Puppy(db.Model):
-    #manually setting the tablename
 
     __tablename__ = 'puppies'
 
-    #adding columns to the table
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
-    age = db.Column(db.Integer)
+    #one to many relationship
+    toys = db.relationship('Toy',backref= 'puppy',lazy = 'dynamic')
+    #one to one relationship
+    owner = db.relationship('Owner',backref= 'puppy',uselist = False)
 
-    def __init__(self,name,age):
+    def __init__(self,name):
         self.name = name
-        self.age = age
     
     def __repr__(self):
-        return f'Puppy {self.name} is {self.age} years old !'
-        
+        if self.owner:
+            return f'Puppy {self.name} is owned by {self.owner.name}'
+        else:
+            return f'Puppy {self.name} has no owner yet'
+
+    def report_toys(self):
+        print("Here are my toys :")
+        for toy in self.toys:
+            print(toy.item_name)
+
+class Toy(db.Model):
+
+    __tablename__ = 'toys'
+
+    id = db.Column(db.Integer, primary_key=True)
+    item_name = db.Column(db.Text)
+    puppy_id = db.Column(db.Integer,db.ForeignKey('puppies.id'))
+
+    def __init__(self,item_name,puppy_id):
+        self.item_name = item_name
+        self.puppy_id = puppy_id
+
+class Owner(db.Model):
+
+    __tablename__ = 'owners'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
+    puppy_id = db.Column(db.Integer,db.ForeignKey('puppies.id'))
+
+    def __init__(self,name,puppy_id):
+        self.name = name
+        self.puppy_id = puppy_id
+
 if __name__ == "__main__":
     app.run(port = 5000,debug= True)
 

@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class = "jumbotron">
-    <h1>Have a puppy that needs to be adopted ?</h1><br>
-    <p>Add a new puppy to our database!</p>
+<div class = "bg-light p-5 rounded-lg m-3">
     <center>
         <form method = "POST">
             {{ form.hidden_tag() }}
-            {{ form.name.label }} {{ form.name() }}
+            {{ form.email.label }} {{ form.email() }} 
+            {{ form.password.label }} {{ form.password() }} <br><br>
             {{ form.submit() }}
         </form>
     </center>

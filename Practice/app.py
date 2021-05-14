@@ -1,58 +1,40 @@
-from myProject import app,db
-from flask import Flask,render_template,abort,redirect,request,url_for,flash
-from flask_login import login_user,login_required,logout_user
-from myProject.models import User
-from myProject.forms import LoginForm,RegistrationForm
-from werkzeug.security import generate_password_hash,check_password_hash
+import os
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
+
+from flask import Flask,render_template,redirect,url_for
+from flask_dance.contrib.google import make_google_blueprint,google
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'mysecretkey'
+
+blueprint = make_google_blueprint(client_id='914861453710-9b5shu4io8h67q4v4saho9f78opj8cdq.apps.googleusercontent.com',
+client_secret= '44sbp6wVCSH1sQWqLrsdPB3u',
+offline=True,scope=['profile','email'])
+
+app.register_blueprint(blueprint,url_prefix ='/login')
 
 @app.route('/')
-def home():
+def index():
     return render_template('home.html')
 
 @app.route('/welcome')
-@login_required
-def welcome_user():
-    return render_template('welcome_user.html')
+def welcome():
+    #return internal server error if not logged in
+    resp = google.get('/oauth2/v2/userinfo')
+    assert resp.ok
+    email = resp.json()['email']
+    return render_template('welcome.html',email=email)
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash("You logged out !")
-    return redirect(url_for('home'))
-
-@app.route('/login',methods = ['GET','POST'])
+@app.route('/login/google')
 def login():
+    if not google.authorized:
+        return render_template(url_for('google.login'))
+    resp = google.get('/oauth2/v2/userinfo')
+    assert resp.ok,resp.text
+    email = resp.json()['email']
+    return render_template('welcome.html',email=email)
 
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email = form.email.data).first()
-
-        if user.check_password(form.password.data) and user is not None:
-            login_user(user)
-            flash('Logged in successfully !')
-
-            next = request.args.get('next')
-
-            if next == None or not next[0] == '/':
-                next = url_for('welcome_user')
-            
-            return redirect(next)
-
-    return render_template('login.html',form = form)
-
-@app.route('/register',methods = ['GET','POST'])
-def register():
-
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email = form.email.data,username= form.username.data,password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Thanks for registering !')
-        return redirect(url_for('login'))
-
-    return render_template('register.html',form = form)
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)

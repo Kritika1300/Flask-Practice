@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class = "bg-light p-5 rounded-lg m-3">
+    <center>
+        <form method = "POST">
+            {{ form.hidden_tag() }}
+            {{ form.email.label }} {{ form.email() }} 
+            {{ form.password.label }} {{ form.password() }} <br><br>
+            {{ form.submit() }}
+        </form>
+    </center>
+</div>
+
+{% endblock %}
+
+  

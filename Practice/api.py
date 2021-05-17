@@ -1,9 +1,13 @@
 from flask import Flask
 from flask_restful import Api,Resource
+from secure_check import authenticate,identity
+from flask_jwt import JWT,jwt_required
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'mysecretkey'
 
 api = Api(app)
+jwt = JWT(app,authenticate,identity)
 
 puppies = []
 
@@ -15,7 +19,7 @@ class PuppyNames(Resource):
             if pup['name'] == name:
                 return pup
         return {'name':None}, 404
-    
+   
     def post(self,name):
 
         pup = {'name':name}
@@ -30,7 +34,7 @@ class PuppyNames(Resource):
                 return {'note': 'delete success'}
             
 class AllNames(Resource):
-
+    @jwt_required()
     def get(self):
         return {'puppies':puppies}
        

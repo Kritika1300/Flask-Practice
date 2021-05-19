@@ -60,4 +60,4 @@ api.add_resource(PuppyNames,'/puppy/<string:name>')
 api.add_resource(AllNames,'/puppies')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port = 5000 ,debug=True)
